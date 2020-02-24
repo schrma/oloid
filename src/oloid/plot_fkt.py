@@ -41,7 +41,7 @@ d = Arrow3D([0,0],[0,0],[0,-1], mutation_scale=20, lw=1, arrowstyle="-|>", color
 e = Arrow3D([0,1],[0,0],[0,0], mutation_scale=20, lw=1, arrowstyle="-|>", color="c")
 f = Arrow3D([0,0],[0,-0.5],[0,0], mutation_scale=20, lw=1, arrowstyle="-|>", color="m")
 
-my_circle = oloid.circle.circle([0, 0, 0], [0, 0, 0], 1, 100)
+my_circle = oloid.circle.circle([0, 0, 0], [1, 2, 3], 2, 100)
 
 ax.add_artist(my_circle)
 ax.add_artist(a)
