@@ -3,6 +3,8 @@ from matplotlib.lines import Line2D
 from mpl_toolkits.mplot3d import proj3d
 from mpl_toolkits.mplot3d.art3d import Line3D
 
+import geometric_functions
+
 class circle(Line3D):
     def __init__(self,center_point, normal_vector, radius=1,nr_of_points=100):
         self.center_point = np.array(center_point)
@@ -35,27 +37,10 @@ class circle(Line3D):
         theta = np.linspace(0, 2 * np.pi, self.nr_of_points)
         center_vector = self.center_point
 
-        # (u_vector - center_vector) normal_vector = 0
-        # u0 = c0
-        # u1 = 1
-        # (u1 - c1)*n1 = -(u2 - c2)*n2
-        # c1*n1 = (u2 - c2)*n2
-        # c1*n1/n2 + c2 = u2
-        u0 = self.center_point[0]
-        u1 = 1
-        u2 = self.center_point[1]*self.normal_vector[1]/self.normal_vector[2] + self.center_point[2]
-
-        u_vector = np.array([u0,u1,u2])
+        u_vector = center_vector + geometric_functions.get_orthogonal_vector(self.normal_vector)
         u_vector_norm = u_vector / np.linalg.norm(u_vector)
-        v0 = 0
-        v1 = 1
-        if u2 != 0:
-            v2 = -u1/u2
-        else:
-            v0 = 1
-            v1 = -u0/u1
-            v2 = 1
-        v_vector = np.array([v0,v1,v2])
+
+        v_vector = center_vector + np.cross(u_vector_norm, self.normal_vector)
         v_vector_norm = v_vector / np.linalg.norm(v_vector)
 
         x = self.center_point[0] + v_vector_norm[0] * self.radius * np.cos(theta) + u_vector_norm[0] * self.radius * np.sin(theta)
